@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/stylesheet/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/pygments/github.min.css">
+  
+
+    <link href="http://chris-lesage.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rigmarole Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Chris Lesage" />
+<meta name="description" content="In this blog post I’ll talk a bit about prototyping games or apps and moving quickly when stuck in a tricky programming problem. I’m currently prototyping a circular puzzle game. Part of the game is about matching colors to their neighbors. I wanted a way to start the level by randomizing the blocks while having no neighboring tiles that were the same color. However, I didn’t want to spend the time to figure out if there was ..." />
+<meta name="keywords" content="lua, mobile-games, programming, prototyping, techart">
+<meta property="og:site_name" content="Rigmarole Blog"/>
+<meta property="og:title" content="“Random Enough” - Hacking Past Your Problems When Prototyping"/>
+<meta property="og:description" content="In this blog post I’ll talk a bit about prototyping games or apps and moving quickly when stuck in a tricky programming problem. I’m currently prototyping a circular puzzle game. Part of the game is about matching colors to their neighbors. I wanted a way to start the level by randomizing the blocks while having no neighboring tiles that were the same color. However, I didn’t want to spend the time to figure out if there was ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://chris-lesage.github.io/tech-art/random-enough-hacking-past-your-problems-when-prototyping/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-11-21 15:51:00-05:00"/>
+<meta property="article:modified_time" content="2013-11-21 15:51:00-05:00"/>
+<meta property="article:author" content="http://chris-lesage.github.io/pages/about/">
+<meta property="article:section" content="tech-art"/>
+<meta property="article:tag" content="lua"/>
+<meta property="article:tag" content="mobile-games"/>
+<meta property="article:tag" content="programming"/>
+<meta property="article:tag" content="prototyping"/>
+<meta property="article:tag" content="techart"/>
+<meta property="og:image" content="">
+  <title>Rigmarole Blog &ndash; “Random Enough” - Hacking Past Your Problems When Prototyping</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://chris-lesage.github.io">
+        <img src="http://chris-lesage.github.io/theme/img/logo_header.png" alt="" title=""><br>
+        <img src="http://chris-lesage.github.io/theme/img/logo_text.png" alt="" title="">
+      </a>
+      <h1><a href="http://chris-lesage.github.io"></a></h1>
+      <p></p>
+      <nav>
+        <ul class="list">
+          <li><a href="/blog/">Blog</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tech-artist-demoreel/">demoreel</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/about/">about</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tools/">tools</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/now/">now</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <div class="article_title">
+    <img src ='robot03_64'>
+    <h2><a href="http://chris-lesage.github.io/tech-art/random-enough-hacking-past-your-problems-when-prototyping/"><span class="dquo">&#8220;</span>Random Enough&#8221; - Hacking Past Your Problems When&nbsp;Prototyping</a></h2>
+    <p>Posted on 2013-11-21 - category: <a href="http://chris-lesage.github.io/category/tech-art/">tech-art</a></p>
+    </div>
+  </header>
+
+    <p>In this blog post I&#8217;ll talk a bit about prototyping games or apps and moving quickly when stuck in a tricky programming&nbsp;problem.</p>
+<p>I&#8217;m currently prototyping a circular puzzle game. Part of the game is about matching colors to their neighbors. I wanted a way to start the level by randomizing the blocks while having no neighboring tiles that were the same&nbsp;color.</p>
+<p><img alt="random tiles example" src="http://chrislesage.com/wp-content/uploads/2013/11/random_tiles_example.jpg" /></p>
+<p>However, I didn&#8217;t want to spend the time to figure out if there was an existing algorithm to do this. I wanted to keep coding and figuring out more important mechanics to the game, so I just made a quick while loop that would keep randomly shuffling until it found&nbsp;something.</p>
+<p><strong>The loop took a long time to run&#8230; Sometimes several seconds or&nbsp;more.</strong></p>
+<p>I realized that the while loop was sometimes going through hundreds or thousands of iterations. Now, I didn&#8217;t know how to visualize how complex of a problem I was trying to solve. It could have been simple or it could have been vastly complex. My goal wasn&#8217;t to visualize this problem. Instead of getting distracted on a problem whose complexity I didn&#8217;t know how to guage, I decided to cobble together a quick&nbsp;hack.</p>
+<p>So instead, I wrote a Lua script that ran iterations of the while loop until it found some. Then, whenever it found a true result, I simply stored those combinations in a table. I ended up only finding 13 combinations. Then when I run the game, it just chooses one out of the table randomly. (Each number represents a&nbsp;color.)</p>
+<div class="highlight"><pre><span></span>shuffleTiles = {
+{4, 1, 4, 1, 3, 2, 1, 3, 2, 3, 4, 2},
+{2, 1, 4, 1, 4, 2, 3, 2, 3, 1, 4, 3}, 
+{4, 3, 4, 3, 2, 1, 3, 2, 4, 1, 2, 1}, 
+{4, 1, 3, 2, 3, 1, 2, 4, 3, 4, 1, 2},
+{3, 2, 1, 4, 1, 2, 3, 4, 2, 3, 4, 1},
+{2, 4, 3, 4, 2, 1, 4, 1, 3, 2, 3, 1},
+{4, 2, 3, 4, 2, 1, 3, 4, 2, 1, 3, 1},
+{3, 4, 1, 3, 1, 4, 2, 3, 2, 1, 4, 2},
+{3, 1, 4, 3, 2, 4, 3, 4, 1, 2, 3, 2},
+{4, 1, 2, 3, 1, 2, 3, 4, 1, 2, 4, 3},
+{4, 1, 2, 4, 3, 1, 2, 3, 4, 3, 2, 1},
+{4, 3, 1, 2, 3, 1, 3, 2, 4, 2, 4, 1},
+{1, 2, 4, 3, 1, 2, 3, 4, 1, 2, 3, 4}
+}
+</pre></div>
+
+
+<p>Since I can also rotate the board, this results in 12 x 13 = 156 starting configurations. This is much faster than running a slow algorithm at run-time (which would last for an unpredictable amount of time) and gets me back to coding the important bits. 156 combinations is enough for me to test the game&nbsp;on.</p>
+<p>I call this <strong><em>&#8220;random enough&#8221;</em></strong>.</p>
+<p>Later on, as development continues, I can come back to solving a fast algorithm or researching if there is an existing sorting algorithm that would suit me. But if it is good enough, then I might not even need to. At this stage, my most important goal is to find a fun set of rules that results in a fun&nbsp;game.</p>
+<p>This is one of the principles in <a href="http://www.gamasutra.com/view/feature/2438/">&#8220;How to Prototype a Game in Under 7 Days&#8221;</a>. <strong>&#8220;Nobody knows how you made it, and nobody&nbsp;cares.&#8221;</strong></p>
+<p>The board-sorting is an important detail, but <strong><em>how</em></strong> it is sorted is a trivial one and it could potentially have cost me days of tinkering and research. It is fun to solve problems, and easy to get distracted in ways like this. When prototyping something new, my goal is to continue moving as fast as possible. You don&#8217;t want to get stuck on one little problem when you have a whole bunch more work to&nbsp;do.</p>
+<p><strong>There are two lessons here</strong>:</p>
+<ol>
+<li>If you have heavy calculations to make that result in a relatively small output, it may be better to front-load the calculations and store it as&nbsp;data. </li>
+<li>Don&#8217;t get stuck on side problems. Focus on the core problems. (Which for me is finding a fun game mechanic and designing the&nbsp;interactions.)</li>
+</ol>
+<h2>Comments</h2>
+<p><strong><a href="#196" title="2014-05-23 18:22:33">Abhijit</a>:</strong> We are all guilty of falling into such traps while designing products. I agree, Random Enough is Sufficient Enough in the initial design&nbsp;phase.</p>
+  
+  <div class="tag-cloud">
+    <p>
+      <a href="http://chris-lesage.github.io/tag/lua.html">lua</a>
+      <a href="http://chris-lesage.github.io/tag/mobile-games.html">mobile-games</a>
+      <a href="http://chris-lesage.github.io/tag/programming.html">programming</a>
+      <a href="http://chris-lesage.github.io/tag/prototyping.html">prototyping</a>
+      <a href="http://chris-lesage.github.io/tag/techart.html">techart</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <nav>
+          <a href="http://chris-lesage.github.io">Home</a>
+          <a href="http://chris-lesage.github.io/archives.html">Archives</a>
+          <a href="http://chris-lesage.github.io/categories.html">Categories</a>
+          <a href="http://chris-lesage.github.io/feeds/all.atom.xml">Atom</a>
+        </nav>
+
+      <p>&copy; 2016 Chris Lesage - Rigmarole Blog&#12288;&mdash;&#12288;<a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>
+
+    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "“Random Enough” - Hacking Past Your Problems When Prototyping",
+  "headline": "“Random Enough” - Hacking Past Your Problems When Prototyping",
+  "datePublished": "2013-11-21 15:51:00-05:00",
+  "dateModified": "2013-11-21 15:51:00-05:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Lesage",
+    "url": "http://chris-lesage.github.io/pages/about/"
+  },
+  "image": "{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png",
+  "url": "http://chris-lesage.github.io/tech-art/random-enough-hacking-past-your-problems-when-prototyping/",
+  "description": "In this blog post I’ll talk a bit about prototyping games or apps and moving quickly when stuck in a tricky programming problem. I’m currently prototyping a circular puzzle game. Part of the game is about matching colors to their neighbors. I wanted a way to start the level by randomizing the blocks while having no neighboring tiles that were the same color. However, I didn’t want to spend the time to figure out if there was ..."
+}
+</script></body>
+</html>

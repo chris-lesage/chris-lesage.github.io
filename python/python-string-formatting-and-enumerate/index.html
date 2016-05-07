@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/stylesheet/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/pygments/github.min.css">
+  
+
+    <link href="http://chris-lesage.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rigmarole Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Chris Lesage" />
+<meta name="description" content="As a mostly self-taught Python scripter, I try to keep on top of best-practices and constantly learn, because I realize how easily bad habits can slip in. I’ve recently learned these bad habits are known as anti-patterns. That said, I learned a couple new Python tricks this week. 1. Better String Formatting Using Format() If you’ve used string formatting before, this is very similar, except the replacement fields are inside {} brackets, and you can use variables as keywords ..." />
+<meta name="keywords" content="maya, pymel, python, tutorials">
+<meta property="og:site_name" content="Rigmarole Blog"/>
+<meta property="og:title" content="Python: String Formatting and Enumerate"/>
+<meta property="og:description" content="As a mostly self-taught Python scripter, I try to keep on top of best-practices and constantly learn, because I realize how easily bad habits can slip in. I’ve recently learned these bad habits are known as anti-patterns. That said, I learned a couple new Python tricks this week. 1. Better String Formatting Using Format() If you’ve used string formatting before, this is very similar, except the replacement fields are inside {} brackets, and you can use variables as keywords ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://chris-lesage.github.io/python/python-string-formatting-and-enumerate/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-21 18:00:00-05:00"/>
+<meta property="article:modified_time" content="2012-02-21 18:00:00-05:00"/>
+<meta property="article:author" content="http://chris-lesage.github.io/pages/about/">
+<meta property="article:section" content="python"/>
+<meta property="article:tag" content="maya"/>
+<meta property="article:tag" content="pymel"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="tutorials"/>
+<meta property="og:image" content="">
+  <title>Rigmarole Blog &ndash; Python: String Formatting and Enumerate</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://chris-lesage.github.io">
+        <img src="http://chris-lesage.github.io/theme/img/logo_header.png" alt="" title=""><br>
+        <img src="http://chris-lesage.github.io/theme/img/logo_text.png" alt="" title="">
+      </a>
+      <h1><a href="http://chris-lesage.github.io"></a></h1>
+      <p></p>
+      <nav>
+        <ul class="list">
+          <li><a href="/blog/">Blog</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tech-artist-demoreel/">demoreel</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/about/">about</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tools/">tools</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/now/">now</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <div class="article_title">
+    <img src ='flask-burner_64'>
+    <h2><a href="http://chris-lesage.github.io/python/python-string-formatting-and-enumerate/">Python: String Formatting and&nbsp;Enumerate</a></h2>
+    <p>Posted on 2012-02-21 - category: <a href="http://chris-lesage.github.io/category/python/">python</a></p>
+    </div>
+  </header>
+
+    <p>As a mostly self-taught Python scripter, I try to keep on top of best-practices and constantly learn, because I realize how easily bad habits can slip in. I&#8217;ve recently learned these <a href="http://www.robg3d.com/?p=933" title="doubly-mutable antipatterns">bad habits</a> are known as <a href="http://blog.sanctum.geek.nz/vim-anti-patterns/" title="vim-anti-patterns">anti-patterns</a>.</p>
+<p>That said, I learned a couple new Python tricks this&nbsp;week.</p>
+<h3>1. Better String Formatting Using&nbsp;Format()</h3>
+<p>If you&#8217;ve used string formatting before, this is very similar, except the replacement fields are inside {} brackets, and you can use variables as keywords or an&nbsp;index.</p>
+<p>examples:</p>
+<pre>print 'We are the {0} who say "{1}!"'.format('knights', 'Ni')
+print 'We are the {1} who say "{0}!"'.format('Ni', 'knights')
+print 'We are the {people} who say "{quote}!"'.format(people='knights', quote='Ni')
+</pre>
+
+<p>There are also lots of examples of how to format numbers or create precise column spacing. The &#8221; <em>old string formatting</em>&#8221; is eventually going to be removed from Python. There is likely no rush to switch, but it is less flexible and a bit harder to&nbsp;read:</p>
+<pre>print 'We are the %s who say %s!' % ('knights', 'Ni')</pre>
+
+<p>source: <a href="http://docs.python.org/tutorial/inputoutput.html">http://docs.python.org/tutorial/inputoutput.html</a></p>
+<h3>2. Looping With&nbsp;Enumerate()</h3>
+<p>One of the common things you want when looping through things is an index counter. You can do this a few various ways: counter += 1 for i in range(): or you can use each.index() on array items. There is a better&nbsp;way:</p>
+<p><a href="http://www.python.org/dev/peps/pep-0279/" title="Python enumerate">Enumerate() is nice <span class="caps">PEP</span>-friendly way</a> to get a &#8220;a compact, readable, reliable index notation&#8221; in loops. It works even when you don&#8217;t have an array to count, or a known length (for doing a range()). You use two variables in your for loop, and the first is your index. It is much nicer than having a separate counter or measuring the length of something which may change inside the&nbsp;loop.</p>
+<p><em>(This is a PyMEL example in Maya and assumes you have a selection of&nbsp;objects.)</em></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymel.core</span> <span class="kn">as</span> <span class="nn">pm</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">selected</span><span class="p">()):</span>
+    <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;some&#39;</span><span class="p">,</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span> <span class="s1">&#39;here&#39;</span><span class="p">]):</span>
+    <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span>
+</pre></div>
+
+
+<h3>3. Put Them&nbsp;Together</h3>
+<p>Let&#8217;s do a simple example where we also use .format() to rename a series of objects. I&#8217;ll use {1:02d} to automatically add frame-padding. {1:__} is the replacement field index. {__:02d} is the frame-padding. (You can also convert to percentages, hexadecimal, dates, change the column spacing, etc. etc. This is just one small&nbsp;example.)</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">selected</span><span class="p">()):</span>
+    <span class="n">newName</span> <span class="o">=</span> <span class="s1">&#39;{0}_{1:02d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;right_whisker&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">each</span><span class="p">,</span> <span class="n">newName</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The nice thing about .format() is how easy it is to read and edit, since the replacement fields are clearly separated by brackets and you can pass any variables to them. Again this isn&#8217;t new, but it is easier to read than the old string formatting. So let&#8217;s play with this a bit and expand the example to automatically rename the object as &#8220;left&#8221; or &#8220;right&#8221;, depending on its translation in&nbsp;X.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">selected</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">each</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span>
+    <span class="n">newName</span> <span class="o">=</span> <span class="s1">&#39;{0}_{1}_{2:02d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="s1">&#39;whisker&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">each</span><span class="p">,</span> <span class="n">newName</span><span class="p">)</span>
+</pre></div>
+
+
+<p>In the past, one of the most common ways I&#8217;ve created an index count is by measuring a length of a list or array or by using .index() to return the index of an array item. In comparison, this looks very ugly now. Plus, if you were to delete some objects inside the loop, the length of your range might&nbsp;change.</p>
+<div class="highlight"><pre><span></span><span class="n">objects</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">selected</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">)):</span>
+    <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="n">objects</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Two useful new tools for the arsenal. If you have any tips, suggestions or improvements, leave a comment. Next up, I&#8217;ll be getting back to the Mini Mammoth rigging after a bit of a&nbsp;hiatus.</p>
+<hr />
+<h2>Comments</h2>
+<p><strong><a href="#23" title="2012-02-22 00:05:36">Alexander Morano</a>:</strong> How does this work with the log_formatter strings? E.G.: _log_format = &#8216;%(asctime)-9s %(levelname)-7s %(name)-40s %(message)s&#8217; since that is a template, are the formatters for the logger class updated in 2.6-&gt; ?&nbsp;Cheers.</p>
+<p><strong><a href="#24" title="2012-02-22 01:59:52">Chris</a>:</strong> @Keir: Ah thanks. Yes it seems it very similar. I suppose the only advantage is the readability. @Alexander: That&#8217;s a good question, but I&#8217;m not sure since I use pymel&#8217;s plogging module. There doesn&#8217;t seem to be any word on format() in regards to log formatting does&nbsp;there?</p>
+<p><strong><a href="#22" title="2012-02-21 22:23:16">Keir</a>:</strong> The % based string substitution also has a couple of cool tricks. [code] print &#8216;We are the %s who say &#8220;%s!&#8221;&#8217; % (&#8216;knights&#8217;, &#8216;Ni&#8217;) print &#8216;We are the %(people)s who say &#8220;%(quote)!&#8221;&#8217; % {people:&#8217;knights&#8217;, quote:&#8217;Ni&#8217;} [\code] [code] people = &#8216;knights&#8217; quote = &#8216;Ni&#8217; print &#8216;We are the %(people)s who say &#8220;%(quote)!&#8221;&#8217; % locals()&nbsp;[\code]</p>
+<p><strong><a href="#25" title="2012-02-25 09:43:38">Rob Galanakis</a>:</strong> Good post but two problems: First is the for/if/else antipattern. You have a known case (each.tx.get() == 0), why are you testing? Pull the loop code into an inner function, call it for the explicit case, then call it for the loop case. Not only does for/if/else not perform well, it is difficult to read because it introduces an extra branch for every loop iteration, even though you should only have to think about the &#8216;0 case&#8217; logic once. Second is mutating a collection as you loop over it. Not only is this actually illegal with many structures (python dicts) and languages (like C#), it is a great way to write code that is incredibly difficult to understand, especially if, say, your collection is pymel nodes. There is never ever a reason to mutate within a loop. Assign things &#8216;transactionally&#8217; instead- that&#8217;s a really loose usage of the word transaction, but I mean, just build up new structures and assign them to what you need to assign them to when&nbsp;done.</p>
+<p><strong><a href="#26" title="2012-02-25 15:05:48">Chris</a>:</strong> Awesome Rob, thanks for the great feedback. That makes total sense. I always find your blog and <span class="caps">TAO</span> posts very valuable to read and re-read. 2 years into Python I consider myself a beginner and you very often introduce concepts, rules and guidelines to which I was completely unaware. (Actually my real autorig code does explicitly call functions. This was just a quick contrived&nbsp;example.)</p>
+<p><strong><a href="#298" title="2016-03-07 15:08:52">gr</a>:</strong> for i, item in enumerate(L): # &#8230; compute some result based on item &#8230; L[i] =&nbsp;result</p>
+  
+  <div class="tag-cloud">
+    <p>
+      <a href="http://chris-lesage.github.io/tag/maya.html">maya</a>
+      <a href="http://chris-lesage.github.io/tag/pymel.html">pymel</a>
+      <a href="http://chris-lesage.github.io/tag/python.html">python</a>
+      <a href="http://chris-lesage.github.io/tag/tutorials.html">tutorials</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <nav>
+          <a href="http://chris-lesage.github.io">Home</a>
+          <a href="http://chris-lesage.github.io/archives.html">Archives</a>
+          <a href="http://chris-lesage.github.io/categories.html">Categories</a>
+          <a href="http://chris-lesage.github.io/feeds/all.atom.xml">Atom</a>
+        </nav>
+
+      <p>&copy; 2016 Chris Lesage - Rigmarole Blog&#12288;&mdash;&#12288;<a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>
+
+    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Python: String Formatting and Enumerate",
+  "headline": "Python: String Formatting and Enumerate",
+  "datePublished": "2012-02-21 18:00:00-05:00",
+  "dateModified": "2012-02-21 18:00:00-05:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Lesage",
+    "url": "http://chris-lesage.github.io/pages/about/"
+  },
+  "image": "{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png",
+  "url": "http://chris-lesage.github.io/python/python-string-formatting-and-enumerate/",
+  "description": "As a mostly self-taught Python scripter, I try to keep on top of best-practices and constantly learn, because I realize how easily bad habits can slip in. I’ve recently learned these bad habits are known as anti-patterns. That said, I learned a couple new Python tricks this week. 1. Better String Formatting Using Format() If you’ve used string formatting before, this is very similar, except the replacement fields are inside {} brackets, and you can use variables as keywords ..."
+}
+</script></body>
+</html>

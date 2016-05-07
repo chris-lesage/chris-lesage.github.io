@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/stylesheet/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/pygments/github.min.css">
+  
+
+    <link href="http://chris-lesage.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rigmarole Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+    <meta name="author" content="Chris Lesage" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Rigmarole Blog"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Rigmarole Blog"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://chris-lesage.github.io"/>
+
+  <title>Rigmarole Blog &ndash; Maya Scripts <span class="amp">&amp;</span>&nbsp;Tools</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://chris-lesage.github.io">
+        <img src="http://chris-lesage.github.io/theme/img/logo_header.png" alt="" title=""><br>
+        <img src="http://chris-lesage.github.io/theme/img/logo_text.png" alt="" title="">
+      </a>
+      <h1><a href="http://chris-lesage.github.io"></a></h1>
+      <p></p>
+      <nav>
+        <ul class="list">
+          <li><a href="/blog/">Blog</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tech-artist-demoreel/">demoreel</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/about/">about</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tools/">tools</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/now/">now</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+  	<div class="article_title">
+    <h2 id="tools">Maya Scripts <span class="amp">&amp;</span>&nbsp;Tools</h2>
+    </div>
+  </header>
+    <p><LINK HREF="/theme/stylesheet/tools.css" REL="stylesheet" TYPE="text/css">
+<div class='tool'>
+<table border=0 width=100%>
+<tr><td>
+<p class='tooltitle'>Reset Selected (Maya&nbsp;hotkey)</p>
+</td><td>
+<a href='http://chrislesage.com/scripts/reset_selected.py' class='downloadtool'>Download</a>
+</td></tr></table>
+<img class='toolimage' src='/images/reset_selected_toolimg.png' width=120px>
+<p class='tooldescription'>This script is intended to be used a Maya hotkey. It resets all selected objects to a neutral (local) transformation of 0,0,0,0,0,0,1,1,1.
+<p class='tooldescription'>To mimic the hotkey in Softimage, map this script to Ctrl-Shift-R. This is very useful for animation. It fully support undo and&nbsp;redo.
+</p>
+<br clear='all'>
+</div></p>
+<div class='tool'>
+<table border=0 width=100%>
+<tr><td>
+<p class='tooltitle'>Create a Single Follicle&nbsp;(Maya)</p>
+</td><td>
+<a href='http://chrislesage.com/scripts/create_follicle.py' class='downloadtool'>Download</a>
+</td></tr></table>
+<img class='toolimage' src='/images/follicle_toolimg.png' width=120px>
+<p class='tooldescription'>This script adds a single follicle to a nurbs plane. Follicles are extremely useful for pinning items to geometry, or creating ribbons for cartoony rigs. For more examples of why to use follicles, check out <a href="http://chrislesage.com/character-rigging/manually-create-maya-follicle-in-python/">my follicle blog post</a>.
+<p class='tooldescription'>Most tutorials tell you to create a hair system and delete everything except the follicle. This is difficult to script and automate. The only way to access the hair command, at least by Maya 2012 was by using <span class="caps">MEL</span>. This script uses PyMEL which lets you easily access the follicle that you create as a casted PyNode.
+<p class='tooldescription'>There are 3 general ways to use this script:
+<p class='tooldescription'>
+<b>Usage</b> (Select a Nurbs surface and run):
+<br>1. On line 32, set U and V parameters. Default is 0.5 and 0.5.
+<br>2. Select a nurbs surface.
+<br>3. Run the script.
+<br>
+<br><b>Usage</b> (Define a Nurbs surface, for integrating in auto-riggers or other scripts):
+<br>1. On line 32 define a nurbs surface. eg. pm.PyNode(&#8216;nurbsPlane1&#8217;)
+<br>2. On line 32, set U and V parameters. Default is 0.5 and 0.5.
+<br>3. Run the script.
+
+<p class='tooldescription'>If you want to create a ribbon with multiple follicles evenly spaced along the length, replace line 32 with something like this:
+<pre>myObject = pm.selected()[0]
+count = 8
+for i in range(0,howMany):
+    oFoll = create_follicle(myObject, i/(count-1.00), 0.5)
+</pre>
+<p class='tooldescription'>This script only supports working with nurbs surfaces rather than polygons because polygons require proper UVs for follicles to work predictably. I&#8217;ve included the line to use if you want to use polygons, but keep that in&nbsp;mind.
+</p>
+<br clear='all'>
+</div>
+
+<div class='tool'>
+<table border=0 width=100%>
+<tr><td>
+<p class='tooltitle'>Get All Skin Influences&nbsp;(Maya)</p>
+</td><td>
+<a href='http://chrislesage.com/scripts/get_skincluster_influences.py' class='downloadtool'>Download</a>
+</td></tr></table>
+<img class='toolimage' src='/images/select_influences_toolimg.png' width=120px>
+<p class='tooldescription'>
+This script takes a selection, finds all the joints that influence the skin and selects&nbsp;them.
+</p>
+<br clear='all'>
+</div>
+  </div>
+</article>
+
+    <footer>
+        <nav>
+          <a href="http://chris-lesage.github.io">Home</a>
+          <a href="http://chris-lesage.github.io/archives.html">Archives</a>
+          <a href="http://chris-lesage.github.io/categories.html">Categories</a>
+          <a href="http://chris-lesage.github.io/feeds/all.atom.xml">Atom</a>
+        </nav>
+
+      <p>&copy; 2016 Chris Lesage - Rigmarole Blog&#12288;&mdash;&#12288;<a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>
+
+    </footer>
+  </main>
+
+
+
+
+
+</body>
+</html>

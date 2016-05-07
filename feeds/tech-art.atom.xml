@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Rigmarole Blog</title><link href="http://chris-lesage.github.io/" rel="alternate"></link><link href="http://chris-lesage.github.io/feeds/tech-art.atom.xml" rel="self"></link><id>http://chris-lesage.github.io/</id><updated>2013-11-21T15:51:00-05:00</updated><entry><title>“Random Enough” - Hacking Past Your Problems When Prototyping</title><link href="http://chris-lesage.github.io/tech-art/random-enough-hacking-past-your-problems-when-prototyping/" rel="alternate"></link><published>2013-11-21T15:51:00-05:00</published><author><name>Chris Lesage</name></author><id>tag:chris-lesage.github.io,2013-11-21:tech-art/random-enough-hacking-past-your-problems-when-prototyping/</id><summary type="html">&lt;p&gt;In this blog post I&amp;#8217;ll talk a bit about prototyping games or apps and moving quickly when stuck in a tricky programming&amp;nbsp;problem.&lt;/p&gt;
+&lt;p&gt;I&amp;#8217;m currently prototyping a circular puzzle game. Part of the game is about matching colors to their neighbors. I wanted a way to start the level by randomizing the blocks while having no neighboring tiles that were the same&amp;nbsp;color.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="random tiles example" src="http://chrislesage.com/wp-content/uploads/2013/11/random_tiles_example.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;However, I didn&amp;#8217;t want to spend the time to figure out if there was an existing algorithm to do this. I wanted to keep coding and figuring out more important mechanics to the game, so I just made a quick while loop that would keep randomly shuffling until it found&amp;nbsp;something.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The loop took a long time to run&amp;#8230; Sometimes several seconds or&amp;nbsp;more.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I realized that the while loop was sometimes going through hundreds or thousands of iterations. Now, I didn&amp;#8217;t know how to visualize how complex of a problem I was trying to solve. It could have been simple or it could have been vastly complex. My goal wasn&amp;#8217;t to visualize this problem. Instead of getting distracted on a problem whose complexity I didn&amp;#8217;t know how to guage, I decided to cobble together a quick&amp;nbsp;hack.&lt;/p&gt;
+&lt;p&gt;So instead, I wrote a Lua script that ran iterations of the while loop until it found some. Then, whenever it found a true result, I simply stored those combinations in a table. I ended up only finding 13 combinations. Then when I run the game, it just chooses one out of the table randomly. (Each number represents a&amp;nbsp;color.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;shuffleTiles = {
+{4, 1, 4, 1, 3, 2, 1, 3, 2, 3, 4, 2},
+{2, 1, 4, 1, 4, 2, 3, 2, 3, 1, 4, 3}, 
+{4, 3, 4, 3, 2, 1, 3, 2, 4, 1, 2, 1}, 
+{4, 1, 3, 2, 3, 1, 2, 4, 3, 4, 1, 2},
+{3, 2, 1, 4, 1, 2, 3, 4, 2, 3, 4, 1},
+{2, 4, 3, 4, 2, 1, 4, 1, 3, 2, 3, 1},
+{4, 2, 3, 4, 2, 1, 3, 4, 2, 1, 3, 1},
+{3, 4, 1, 3, 1, 4, 2, 3, 2, 1, 4, 2},
+{3, 1, 4, 3, 2, 4, 3, 4, 1, 2, 3, 2},
+{4, 1, 2, 3, 1, 2, 3, 4, 1, 2, 4, 3},
+{4, 1, 2, 4, 3, 1, 2, 3, 4, 3, 2, 1},
+{4, 3, 1, 2, 3, 1, 3, 2, 4, 2, 4, 1},
+{1, 2, 4, 3, 1, 2, 3, 4, 1, 2, 3, 4}
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since I can also rotate the board, this results in 12 x 13 = 156 starting configurations. This is much faster than running a slow algorithm at run-time (which would last for an unpredictable amount of time) and gets me back to coding the important bits. 156 combinations is enough for me to test the game&amp;nbsp;on.&lt;/p&gt;
+&lt;p&gt;I call this &lt;strong&gt;&lt;em&gt;&amp;#8220;random enough&amp;#8221;&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Later on, as development continues, I can come back to solving a fast algorithm or researching if there is an existing sorting algorithm that would suit me. But if it is good enough, then I might not even need to. At this stage, my most important goal is to find a fun set of rules that results in a fun&amp;nbsp;game.&lt;/p&gt;
+&lt;p&gt;This is one of the principles in &lt;a href="http://www.gamasutra.com/view/feature/2438/"&gt;&amp;#8220;How to Prototype a Game in Under 7 Days&amp;#8221;&lt;/a&gt;. &lt;strong&gt;&amp;#8220;Nobody knows how you made it, and nobody&amp;nbsp;cares.&amp;#8221;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The board-sorting is an important detail, but &lt;strong&gt;&lt;em&gt;how&lt;/em&gt;&lt;/strong&gt; it is sorted is a trivial one and it could potentially have cost me days of tinkering and research. It is fun to solve problems, and easy to get distracted in ways like this. When prototyping something new, my goal is to continue moving as fast as possible. You don&amp;#8217;t want to get stuck on one little problem when you have a whole bunch more work to&amp;nbsp;do.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;There are two lessons here&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If you have heavy calculations to make that result in a relatively small output, it may be better to front-load the calculations and store it as&amp;nbsp;data. &lt;/li&gt;
+&lt;li&gt;Don&amp;#8217;t get stuck on side problems. Focus on the core problems. (Which for me is finding a fun game mechanic and designing the&amp;nbsp;interactions.)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="#196" title="2014-05-23 18:22:33"&gt;Abhijit&lt;/a&gt;:&lt;/strong&gt; We are all guilty of falling into such traps while designing products. I agree, Random Enough is Sufficient Enough in the initial design&amp;nbsp;phase.&lt;/p&gt;</summary><category term="lua"></category><category term="mobile-games"></category><category term="programming"></category><category term="prototyping"></category><category term="techart"></category></entry></feed>

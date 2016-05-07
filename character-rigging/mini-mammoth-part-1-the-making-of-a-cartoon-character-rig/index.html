@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/stylesheet/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/pygments/github.min.css">
+  
+
+    <link href="http://chris-lesage.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rigmarole Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Chris Lesage" />
+<meta name="description" content="Hi everyone. This is the first post in a series where I take this simple doodle of a cartoon mammoth: …and turn him into a fully animated, super-flexible cartoony character rig in Maya! I’ll be documenting the entire process from design and modelling to the creation of the entire rig. It won’t be a step-by-step tutorial, but it will show my entire thought process as I rig, mistakes and all. It might get messy, but I know I ..." />
+<meta name="keywords" content="character-design, rigging, sketches">
+<meta property="og:site_name" content="Rigmarole Blog"/>
+<meta property="og:title" content="Mini Mammoth Part 1: The Making Of A Cartoon Character Rig"/>
+<meta property="og:description" content="Hi everyone. This is the first post in a series where I take this simple doodle of a cartoon mammoth: …and turn him into a fully animated, super-flexible cartoony character rig in Maya! I’ll be documenting the entire process from design and modelling to the creation of the entire rig. It won’t be a step-by-step tutorial, but it will show my entire thought process as I rig, mistakes and all. It might get messy, but I know I ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://chris-lesage.github.io/character-rigging/mini-mammoth-part-1-the-making-of-a-cartoon-character-rig/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-01-17 03:50:00-05:00"/>
+<meta property="article:modified_time" content="2012-01-17 03:50:00-05:00"/>
+<meta property="article:author" content="http://chris-lesage.github.io/pages/about/">
+<meta property="article:section" content="character-rigging"/>
+<meta property="article:tag" content="character-design"/>
+<meta property="article:tag" content="rigging"/>
+<meta property="article:tag" content="sketches"/>
+<meta property="og:image" content="">
+  <title>Rigmarole Blog &ndash; Mini Mammoth Part 1: The Making Of A Cartoon Character Rig</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://chris-lesage.github.io">
+        <img src="http://chris-lesage.github.io/theme/img/logo_header.png" alt="" title=""><br>
+        <img src="http://chris-lesage.github.io/theme/img/logo_text.png" alt="" title="">
+      </a>
+      <h1><a href="http://chris-lesage.github.io"></a></h1>
+      <p></p>
+      <nav>
+        <ul class="list">
+          <li><a href="/blog/">Blog</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tech-artist-demoreel/">demoreel</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/about/">about</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tools/">tools</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/now/">now</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <div class="article_title">
+    <img src ='gears_64'>
+    <h2><a href="http://chris-lesage.github.io/character-rigging/mini-mammoth-part-1-the-making-of-a-cartoon-character-rig/">Mini Mammoth Part 1: The Making Of A Cartoon Character&nbsp;Rig</a></h2>
+    <p>Posted on 2012-01-17 - category: <a href="http://chris-lesage.github.io/category/character-rigging/">character-rigging</a></p>
+    </div>
+  </header>
+
+    <p><strong>Hi everyone. This is the first post in a series where I take this simple doodle of a cartoon&nbsp;mammoth:</strong></p>
+<p><img alt="" src="http://chrislesage.com/wp-content/uploads/2012/01/mini-mammoth-first-sketch.jpg" /></p>
+<p><strong>&#8230;and turn him into a fully animated, super-flexible cartoony character rig in&nbsp;Maya!</strong></p>
+<p>I&#8217;ll be documenting the entire process from design and modelling to the creation of the entire rig. It won&#8217;t be a step-by-step tutorial, but it will show my entire thought process as I rig, mistakes and all. It might get messy, but I know I&#8217;ll learn a lot and hopefully you will&nbsp;too.</p>
+<p>This isn&#8217;t the full &#8220;design&#8221;. That will come a bit later. Right now it is just a quick 3-inch doodle that I sketched while at work. I am choosing this funny little character for a few reasons, because it will be especially challenging in a few&nbsp;ways: </p>
+<h4>The&nbsp;Challenge</h4>
+<p>1. The challenge of small cartoony rigs is that there is lots of overlapping influence between the different body parts. Take a look at this&nbsp;image.</p>
+<p><img alt="" src="http://chrislesage.com/wp-content/uploads/2012/01/mini-mammoth-design-considerations.jpg" /></p>
+<p>For example, the cavity of the mouth and the shape of the lips is going to overlap all the way down to his knees. So when he opens his mouth his legs are going to move! His head is so big in relation to his body that he is basically a walking face. When rigging a normal-sized human or creature, all the body parts are distinct and separate and it is easier to paint the influence. So I am going to have to very carefully consider how I do everything from the facial rig to the way the limbs bend the&nbsp;body.</p>
+<p>2. I am going to design him so that he has a lot of exaggerated squash and stretch. His trunk will stretch, bulge and grab on to things. How will such a short little trunk grab things? We will&nbsp;see!</p>
+<p>3. It will just be a lot of fun figuring out how to make this guy move in an appealing and believable&nbsp;way! </p>
+<h4>The End&nbsp;Result?</h4>
+<p>The end result will be an animated short, featuring &#8220;Mini Mammoth&#8221;. I am not sure yet if I am going to texture and render it, but we will see! Stay&nbsp;tuned!</p>
+  
+  <div class="tag-cloud">
+    <p>
+      <a href="http://chris-lesage.github.io/tag/character-design.html">character-design</a>
+      <a href="http://chris-lesage.github.io/tag/rigging.html">rigging</a>
+      <a href="http://chris-lesage.github.io/tag/sketches.html">sketches</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <nav>
+          <a href="http://chris-lesage.github.io">Home</a>
+          <a href="http://chris-lesage.github.io/archives.html">Archives</a>
+          <a href="http://chris-lesage.github.io/categories.html">Categories</a>
+          <a href="http://chris-lesage.github.io/feeds/all.atom.xml">Atom</a>
+        </nav>
+
+      <p>&copy; 2016 Chris Lesage - Rigmarole Blog&#12288;&mdash;&#12288;<a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>
+
+    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "Mini Mammoth Part 1: The Making Of A Cartoon Character Rig",
+  "headline": "Mini Mammoth Part 1: The Making Of A Cartoon Character Rig",
+  "datePublished": "2012-01-17 03:50:00-05:00",
+  "dateModified": "2012-01-17 03:50:00-05:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Lesage",
+    "url": "http://chris-lesage.github.io/pages/about/"
+  },
+  "image": "{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png",
+  "url": "http://chris-lesage.github.io/character-rigging/mini-mammoth-part-1-the-making-of-a-cartoon-character-rig/",
+  "description": "Hi everyone. This is the first post in a series where I take this simple doodle of a cartoon mammoth: …and turn him into a fully animated, super-flexible cartoony character rig in Maya! I’ll be documenting the entire process from design and modelling to the creation of the entire rig. It won’t be a step-by-step tutorial, but it will show my entire thought process as I rig, mistakes and all. It might get messy, but I know I ..."
+}
+</script></body>
+</html>

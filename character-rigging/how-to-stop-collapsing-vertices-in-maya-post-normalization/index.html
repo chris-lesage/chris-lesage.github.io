@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/stylesheet/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://chris-lesage.github.io/theme/pygments/github.min.css">
+  
+
+    <link href="http://chris-lesage.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rigmarole Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Chris Lesage" />
+<meta name="description" content="So this is annoying. You are trying to paint weights in Maya using Post Normalization and a bunch of your vertices are collapsing to the origin! What’s going on!? Don’t fret. There is a simple explanation and an easy fix for this. But first, let’s look at what Post skinning is doing: “What is this Post Normalization skinning all about?” When using Post Normalization skinning for the first time, it can be a bit tricky to figure ..." />
+<meta name="keywords" content="maya, rigging, rigtip, skinning">
+<meta property="og:site_name" content="Rigmarole Blog"/>
+<meta property="og:title" content="How To Stop Collapsing Vertices in Maya Post Normalization"/>
+<meta property="og:description" content="So this is annoying. You are trying to paint weights in Maya using Post Normalization and a bunch of your vertices are collapsing to the origin! What’s going on!? Don’t fret. There is a simple explanation and an easy fix for this. But first, let’s look at what Post skinning is doing: “What is this Post Normalization skinning all about?” When using Post Normalization skinning for the first time, it can be a bit tricky to figure ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://chris-lesage.github.io/character-rigging/how-to-stop-collapsing-vertices-in-maya-post-normalization/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-05-14 16:52:00-04:00"/>
+<meta property="article:modified_time" content="2012-05-14 16:52:00-04:00"/>
+<meta property="article:author" content="http://chris-lesage.github.io/pages/about/">
+<meta property="article:section" content="character-rigging"/>
+<meta property="article:tag" content="maya"/>
+<meta property="article:tag" content="rigging"/>
+<meta property="article:tag" content="rigtip"/>
+<meta property="article:tag" content="skinning"/>
+<meta property="og:image" content="">
+  <title>Rigmarole Blog &ndash; How To Stop Collapsing Vertices in Maya Post Normalization</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://chris-lesage.github.io">
+        <img src="http://chris-lesage.github.io/theme/img/logo_header.png" alt="" title=""><br>
+        <img src="http://chris-lesage.github.io/theme/img/logo_text.png" alt="" title="">
+      </a>
+      <h1><a href="http://chris-lesage.github.io"></a></h1>
+      <p></p>
+      <nav>
+        <ul class="list">
+          <li><a href="/blog/">Blog</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tech-artist-demoreel/">demoreel</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/about/">about</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/tools/">tools</a></li>
+              <li><a href="http://chris-lesage.github.io/pages/now/">now</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+      </ul>
+    </div>
+  </aside>
+  <main>
+
+<article>
+  <header>
+    <div class="article_title">
+    <img src ='gears_64'>
+    <h2><a href="http://chris-lesage.github.io/character-rigging/how-to-stop-collapsing-vertices-in-maya-post-normalization/">How To Stop Collapsing Vertices in Maya Post&nbsp;Normalization</a></h2>
+    <p>Posted on 2012-05-14 - category: <a href="http://chris-lesage.github.io/category/character-rigging/">character-rigging</a></p>
+    </div>
+  </header>
+
+    <p><img alt="&lt;img src=" src="http://chrislesage.com/wp-content/uploads/2012/05/collapsed_vertices.jpg" /></p>
+<p>So this is annoying. You are trying to paint weights in Maya using Post Normalization and a bunch of your vertices are collapsing to the origin! <strong>What&#8217;s going&nbsp;on!?</strong></p>
+<p>Don&#8217;t fret. There is a simple explanation and an easy fix for this. But first, let&#8217;s look at what Post skinning is&nbsp;doing: </p>
+<h3><span class="dquo">&#8220;</span>What is this Post Normalization skinning all&nbsp;about?&#8221;</h3>
+<p>When using Post Normalization skinning for the first time, it can be a bit tricky to figure out how things are working. Basically Maya is taking the total of all the weights and then normalizing it to 1.0. With classic interactive skinning this is done <em>while you paint</em>, which means if you paint on <strong>Influence A</strong>, Maya automatically steals weights away from <strong>Influence B</strong> and <strong>Influence C</strong>.</p>
+<p>If you are <strong>subtracting weights</strong>, it automatically tries to add weights to other joints. This can be very buggy and throw weights&nbsp;unpredictably.</p>
+<p>With Post Normalization, Maya is keeping all the weights you&#8217;ve painted and doing this calculation on the fly. It stores the values of your weights <strong>without changing any of the others</strong>. You can paint all the way up to 1.0 on Influence A, Influence B and Influence C. Maya averages it out and the final effect is 0.333 on all 3 influences, but the weights are still painted to 1.0. This can be a great way to think of your weights as separate layers. <strong>It&#8217;s like a bunch of overlapping venn diagrams</strong>. </p>
+<h3><span class="dquo">&#8220;</span>So what is happening in that ugly&nbsp;image?&#8221;</h3>
+<p>What you are seeing is essentially a divide-by-zero error. When you first encounter these collapsing vertices, you might think it is a bug and dismiss Post Normalization as garbage or confusing. But it has a simple explanation. Since Maya isn&#8217;t automatically changing any weights, if you can paint all the weights to 1, you can also paint them all to 0. Maya is trying to calculate the totals of the weights but when there are no weights to divvy up, it simply can&#8217;t make the&nbsp;calculation.</p>
+<h3>How To Fix&nbsp;It</h3>
+<p>Luckily there is an easy fix. What I do is create an extra joint called &#8220;base_influence&#8221; and place it anywhere in the middle of my character or at origin. Next, flood the entire character geometry with 0.05 weight on&nbsp;&#8220;base_influence&#8221;.</p>
+<p>Now you can paint the rest of your joints freely, but this one will always hold a tiny little bit of weight to prevent collapsing. Lastly, don&#8217;t forget to constrain this &#8220;base_influence&#8221; to your characters root joint or root controller so it follows when you move the&nbsp;character. </p>
+<h3><span class="dquo">&#8220;</span>Why use it if it is so&nbsp;confusing?&#8221;</h3>
+<p>It took me a while to get used to, but I use Post Normalization skinning all the time now. You get to think in layers. Smoothing and subtracting weights is bug-free. You just have to get used to the fact that if you are painting Influence A, you have to manually paint away any overlapping influence on Influence B, or you will never reach full&nbsp;influence.</p>
+<h3>Another&nbsp;Alternative</h3>
+<p>I haven&#8217;t had time to test this tool out yet. If you are interested in advanced skinning techniques and painting in layers, this sounds like a promising tool worth checking out: <a href="http://www.ngskintools.com/">ngSkin Tools</a> developed by Viktoras Makauskas. It sounds like Viktoras is developing something which solves a lot of the common frustrations with a Maya skinning workflow. It also uses regular skinning nodes, so it can also be a solution to video game riggers if Post Normalization isn&#8217;t an option for your&nbsp;engine.</p>
+<p>If you have any skinning tricks and techniques, please let me know in the comments or share your wisdom on <a href="http://twitter.com/chrislesage">Twitter</a> with the #rigtip&nbsp;hashtag.</p>
+<hr />
+<h2>Comments</h2>
+<p><strong><a href="#65" title="2013-03-01 07:31:10">Alex Bone</a>:</strong> thank you so much, this is great&nbsp;advice</p>
+  
+  <div class="tag-cloud">
+    <p>
+      <a href="http://chris-lesage.github.io/tag/maya.html">maya</a>
+      <a href="http://chris-lesage.github.io/tag/rigging.html">rigging</a>
+      <a href="http://chris-lesage.github.io/tag/rigtip.html">rigtip</a>
+      <a href="http://chris-lesage.github.io/tag/skinning.html">skinning</a>
+    </p>
+  </div>
+</article>
+
+    <footer>
+        <nav>
+          <a href="http://chris-lesage.github.io">Home</a>
+          <a href="http://chris-lesage.github.io/archives.html">Archives</a>
+          <a href="http://chris-lesage.github.io/categories.html">Categories</a>
+          <a href="http://chris-lesage.github.io/feeds/all.atom.xml">Atom</a>
+        </nav>
+
+      <p>&copy; 2016 Chris Lesage - Rigmarole Blog&#12288;&mdash;&#12288;<a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>
+
+    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "How To Stop Collapsing Vertices in Maya Post Normalization",
+  "headline": "How To Stop Collapsing Vertices in Maya Post Normalization",
+  "datePublished": "2012-05-14 16:52:00-04:00",
+  "dateModified": "2012-05-14 16:52:00-04:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Lesage",
+    "url": "http://chris-lesage.github.io/pages/about/"
+  },
+  "image": "{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png",
+  "url": "http://chris-lesage.github.io/character-rigging/how-to-stop-collapsing-vertices-in-maya-post-normalization/",
+  "description": "So this is annoying. You are trying to paint weights in Maya using Post Normalization and a bunch of your vertices are collapsing to the origin! What’s going on!? Don’t fret. There is a simple explanation and an easy fix for this. But first, let’s look at what Post skinning is doing: “What is this Post Normalization skinning all about?” When using Post Normalization skinning for the first time, it can be a bit tricky to figure ..."
+}
+</script></body>
+</html>
