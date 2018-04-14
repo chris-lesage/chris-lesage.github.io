@@ -1,6 +1,6 @@
 ---
-title: Rigmarole Studio
+title: Rigmarole
 ---
 
 <br>
-# Rigmarole Studio
+# Rigmarole
