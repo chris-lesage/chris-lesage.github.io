@@ -1,6 +1,2 @@
----
-title: Rigmarole
----
-
 <br>
 # Rigmarole
